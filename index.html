@@ -14,6 +14,10 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .header-eyebrow{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:4px;color:var(--accent2);margin-bottom:12px;display:block;}
 .header h1{font-family:'Bebas Neue',sans-serif;font-size:64px;letter-spacing:2px;line-height:1;background:linear-gradient(135deg,#fff 0%,var(--accent2) 60%,var(--green) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
 .header p{color:var(--muted);font-size:14px;}
+.language-switch{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-radius:999px;}
+.language-switch label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);}
+.language-switch select{background:var(--surface2);border:1px solid var(--border);border-radius:999px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;padding:6px 10px;outline:none;cursor:pointer;}
+.language-switch select:focus{border-color:var(--accent2);}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px;margin-bottom:16px;position:relative;overflow:hidden;}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0.5;}
 .card-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--accent2);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
@@ -136,12 +140,20 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
   <div class="header">
     <span class="header-eyebrow">⚡ BANNER STUDIO</span>
     <h1>BANNER<br>GENERATOR</h1>
-    <p>Upload tes assets — génère tes bannières FR + EN automatiquement</p>
+    <p data-i18n="headerSubtitle">Ajouter tes assets et génère tes bannières et visuels personnalisés automatiquement</p>
+    <div class="language-switch">
+      <label for="ui_language" data-i18n="languageLabel">Langue</label>
+      <select id="ui_language" onchange="setUiLanguage(this.value)">
+        <option value="fr">FR</option>
+        <option value="en">English</option>
+        <option value="ja">日本語</option>
+      </select>
+    </div>
   </div>
 
   <form id="bannerForm">
     <div class="card">
-      <div class="card-title"><span class="num">1</span> ASSETS IMAGES</div>
+      <div class="card-title"><span class="num">1</span> <span data-i18n="assetsTitle">ASSETS IMAGES</span></div>
       <div class="upload-grid three" style="margin-bottom:12px;">
         <div class="upload-zone" id="zone-booster">
           <input type="file" accept="image/*" onchange="uploadToCloudinary(this,'booster_url','zone-booster','prev-booster')">
@@ -149,7 +161,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
           <div class="spinner-small" style="display:none" id="spin-booster"></div>
           <img class="preview-img" id="prev-booster">
           <span class="upload-label">Booster</span>
-          <span class="upload-sub">PNG — sera détouré automatiquement</span>
+          <span class="upload-sub" data-i18n="autoCutout">PNG — sera détouré automatiquement</span>
         </div>
         <div class="upload-zone" id="zone-display">
           <input type="file" accept="image/*" onchange="uploadToCloudinary(this,'display_url','zone-display','prev-display')">
@@ -157,15 +169,15 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
           <div class="spinner-small" style="display:none" id="spin-display"></div>
           <img class="preview-img" id="prev-display">
           <span class="upload-label">Display</span>
-          <span class="upload-sub">PNG — sera détouré automatiquement</span>
+          <span class="upload-sub" data-i18n="autoCutout">PNG — sera détouré automatiquement</span>
         </div>
         <div class="upload-zone" id="zone-logo">
           <input type="file" accept="image/*" onchange="uploadToCloudinary(this,'logo_url','zone-logo','prev-logo','prev-logo-large')">
           <span class="upload-icon">🏷️</span>
           <div class="spinner-small" style="display:none" id="spin-logo"></div>
           <img class="preview-img" id="prev-logo">
-          <span class="upload-label">Logo série</span>
-          <span class="upload-sub">PNG — sera détouré automatiquement</span>
+          <span class="upload-label" data-i18n="seriesLogo">Logo série</span>
+          <span class="upload-sub" data-i18n="autoCutout">PNG — sera détouré automatiquement</span>
         </div>
       </div>
       <div id="logo-large-preview" style="display:none;background:#0d0618;border-radius:10px;padding:14px;text-align:center;margin-bottom:12px;">
@@ -178,16 +190,16 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
           <span class="upload-icon">🃏</span>
           <div class="spinner-small" style="display:none" id="spin-card1"></div>
           <img class="preview-img" id="prev-card1">
-          <span class="upload-label">Carte 1 (avant)</span>
-          <span class="upload-sub">PNG — sera détourée automatiquement</span>
+          <span class="upload-label" data-i18n="card1">Carte 1 (avant)</span>
+          <span class="upload-sub" data-i18n="autoCutoutFem">PNG — sera détourée automatiquement</span>
         </div>
         <div class="upload-zone" id="zone-card2">
           <input type="file" accept="image/*" onchange="uploadToCloudinary(this,'card2_url','zone-card2','prev-card2')">
           <span class="upload-icon">🃏</span>
           <div class="spinner-small" style="display:none" id="spin-card2"></div>
           <img class="preview-img" id="prev-card2">
-          <span class="upload-label">Carte 2 (arrière)</span>
-          <span class="upload-sub">PNG — sera détourée automatiquement</span>
+          <span class="upload-label" data-i18n="card2">Carte 2 (arrière)</span>
+          <span class="upload-sub" data-i18n="autoCutoutFem">PNG — sera détourée automatiquement</span>
         </div>
       </div>
       <div class="divider"></div>
@@ -197,21 +209,21 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
           <span class="upload-icon">🌌</span>
           <div class="spinner-small" style="display:none" id="spin-bg"></div>
           <img class="preview-img" id="prev-bg" style="width:120px;height:50px;object-fit:cover;">
-          <span class="upload-label">Fond / Background</span>
-          <span class="upload-sub">JPG ou PNG — image clé de la série</span>
+          <span class="upload-label" data-i18n="background">Fond / Background</span>
+          <span class="upload-sub" data-i18n="backgroundSub">JPG ou PNG — image clé de la série</span>
         </div>
       </div>
     </div>
 
     <div class="card">
-      <div class="card-title"><span class="num">2</span> TITRE & COULEURS</div>
+      <div class="card-title"><span class="num">2</span> <span data-i18n="titleColors">TITRE & COULEURS</span></div>
       <div class="field-group">
         <div class="field">
-          <label>Titre ligne 1 (FR + EN)</label>
+          <label data-i18n="titleLine1">Titre ligne 1 (FR + EN)</label>
           <input type="text" id="titre_ligne1" placeholder="ex: ABYSS" value="ABYSS" oninput="updatePreview();sendToIframe()">
         </div>
         <div class="field">
-          <label>Titre ligne 2 (FR + EN)</label>
+          <label data-i18n="titleLine2">Titre ligne 2 (FR + EN)</label>
           <input type="text" id="titre_ligne2" placeholder="ex: EYE" value="EYE" oninput="updatePreview();sendToIframe()">
         </div>
       </div>
@@ -242,7 +254,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
     </div>
 
     <div class="card">
-      <div class="card-title"><span class="num">3</span> TEXTES</div>
+      <div class="card-title"><span class="num">3</span> <span data-i18n="textsTitle">TEXTES</span></div>
       <div class="field-group">
         <div class="field"><label>Disponible (FR)</label><input type="text" id="dispo_ligne1" value="DISPONIBLE" oninput="sendToIframe()"></div>
         <div class="field"><label>Maintenant (FR)</label><input type="text" id="dispo_reste" value="MAINTENANT" oninput="sendToIframe()"></div>
@@ -254,14 +266,14 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
     </div>
 
     <div class="card">
-      <div class="card-title"><span class="num">4</span> CONFIGURATION</div>
+      <div class="card-title"><span class="num">4</span> <span data-i18n="configurationTitle">CONFIGURATION</span></div>
       <div class="field">
-        <label>URL Webhook Make</label>
+        <label data-i18n="makeWebhook">URL Webhook Make</label>
         <input type="text" id="webhook_url" value="https://hook.eu1.make.com/p5xddqp8e69ikw4b16d3cv2hd49vu51n">
       </div>
       <div class="field" style="margin-top:12px;">
-        <label>URL Webhook de suivi HD</label>
-        <input type="text" id="status_webhook_url" placeholder="À coller après la création du scénario de suivi Make">
+        <label data-i18n="statusWebhook">URL Webhook de suivi HD</label>
+        <input type="text" id="status_webhook_url" data-i18n-placeholder="statusWebhookPlaceholder" placeholder="À coller après la création du scénario de suivi Make">
       </div>
     </div>
 
@@ -274,26 +286,26 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
     </div>
     <div class="status-msg" id="statusMsg"></div>
     <button type="submit" class="btn-generate" id="submitBtn">
-      <span class="btn-text">⚡ GÉNÉRER LES BANNIÈRES</span>
+      <span class="btn-text" data-i18n="generateBtn">⚡ GÉNÉRER LES BANNIÈRES</span>
       <div class="spinner"></div>
     </button>
   </form>
 
   <div class="project-actions">
-    <button type="button" class="btn-project" onclick="saveProject()">💾 SAUVEGARDER LE PROJET</button>
-    <button type="button" class="btn-project" onclick="document.getElementById('projectImport').click()">📂 IMPORTER UN PROJET</button>
+    <button type="button" class="btn-project" onclick="saveProject()" data-i18n="saveProject">💾 SAUVEGARDER LE PROJET</button>
+    <button type="button" class="btn-project" onclick="document.getElementById('projectImport').click()" data-i18n="importProject">📂 IMPORTER UN PROJET</button>
     <input class="hidden-file" type="file" id="projectImport" accept="application/json,.json" onchange="importProject(this)">
   </div>
 
   <div class="error-msg" id="errorMsg"></div>
   <div class="result" id="result">
-    <div class="result-title">✅ BANNIÈRES GÉNÉRÉES !</div>
+    <div class="result-title" data-i18n="resultTitle">✅ BANNIÈRES GÉNÉRÉES !</div>
     <div id="resultContent"></div>
   </div>
 
   <!-- ÉDITEUR LIVE -->
   <div class="editor-card" id="editorCard">
-    <div class="editor-title">🎛️ AJUSTER LES BANNIÈRES <span class="live-badge">● LIVE</span></div>
+    <div class="editor-title"><span data-i18n="editorTitle">🎛️ AJUSTER LES BANNIÈRES</span> <span class="live-badge">● LIVE</span></div>
     <div class="editor-sticky">
       <div class="banner-tabs">
         <div class="banner-tab active" onclick="switchTab('desktop_fr',this)">Desktop FR</div>
@@ -304,12 +316,12 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
         <div class="banner-tab" onclick="switchTab('social_en',this)">Story EN 9:16</div>
       </div>
       <div class="sync-note" id="syncNote">Réglages synchronisés entre Desktop FR et Desktop EN.</div>
-      <div class="asset-status" id="assetStatus">Images du simulateur : versions originales.</div>
+      <div class="asset-status" id="assetStatus" data-i18n="assetStatusDefault">Images du simulateur : versions originales.</div>
       <div class="banner-preview-wrap" id="previewWrap">
         <iframe id="bannerIframe" scrolling="no"></iframe>
       </div>
     </div>
-    <div class="editor-actions"><button class="btn-reset" onclick="resetSliders()">↺ Réinitialiser</button></div>
+    <div class="editor-actions"><button class="btn-reset" onclick="resetSliders()" data-i18n="resetBtn">↺ Réinitialiser</button></div>
     <div class="sliders-grid">
       <!-- Logo -->
       <div class="slider-group">
@@ -379,8 +391,8 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
         </div>
       </div>
     </div>
-    <button class="btn-link" onclick="showAnimatedLinks()">🔗 CRÉER LES LIENS ANIMÉS</button>
-    <button class="btn-hd" id="btnHD" onclick="generateHD()">🚀 GÉNÉRER EN HD AVEC CES RÉGLAGES</button>
+    <button class="btn-link" onclick="showAnimatedLinks()" data-i18n="animatedLinksBtn">🔗 CRÉER LES LIENS ANIMÉS</button>
+    <button class="btn-hd" id="btnHD" onclick="generateHD()" data-i18n="hdBtn">🚀 GÉNÉRER EN HD AVEC CES RÉGLAGES</button>
     <div class="hd-status" id="hdStatus"></div>
   </div>
 </div>
@@ -452,6 +464,131 @@ const projectFieldIds = [
   'col1','col2','col3','col4','col_outline','col_glow','col_glow2',
   'webhook_url','status_webhook_url'
 ];
+
+const uiTranslations = {
+  fr: {
+    headerSubtitle:'Ajouter tes assets et génère tes bannières et visuels personnalisés automatiquement',
+    languageLabel:'Langue',
+    assetsTitle:'ASSETS IMAGES',
+    autoCutout:'PNG — sera détouré automatiquement',
+    autoCutoutFem:'PNG — sera détourée automatiquement',
+    seriesLogo:'Logo série',
+    card1:'Carte 1 (avant)',
+    card2:'Carte 2 (arrière)',
+    background:'Fond / Background',
+    backgroundSub:'JPG ou PNG — image clé de la série',
+    titleColors:'TITRE & COULEURS',
+    titleLine1:'Titre ligne 1 (FR + EN)',
+    titleLine2:'Titre ligne 2 (FR + EN)',
+    textsTitle:'TEXTES',
+    configurationTitle:'CONFIGURATION',
+    makeWebhook:'URL Webhook Make',
+    statusWebhook:'URL Webhook de suivi HD',
+    statusWebhookPlaceholder:'À coller après la création du scénario de suivi Make',
+    generateBtn:'⚡ GÉNÉRER LES BANNIÈRES',
+    saveProject:'💾 SAUVEGARDER LE PROJET',
+    importProject:'📂 IMPORTER UN PROJET',
+    resultTitle:'✅ BANNIÈRES GÉNÉRÉES !',
+    editorTitle:'🎛️ AJUSTER LES BANNIÈRES',
+    assetStatusDefault:'Images du simulateur : versions originales.',
+    resetBtn:'↺ Réinitialiser',
+    animatedLinksBtn:'🔗 CRÉER LES LIENS ANIMÉS',
+    hdBtn:'🚀 GÉNÉRER EN HD AVEC CES RÉGLAGES',
+    syncDesktop:'Réglages synchronisés entre Desktop FR et Desktop EN.',
+    syncMobile:'Réglages synchronisés entre Mobile FR et Mobile EN.',
+    syncStory:'Réglages synchronisés entre Story FR et Story EN.'
+  },
+  en: {
+    headerSubtitle:'Add your assets and automatically generate custom banners and visuals',
+    languageLabel:'Language',
+    assetsTitle:'IMAGE ASSETS',
+    autoCutout:'PNG — will be cut out automatically',
+    autoCutoutFem:'PNG — will be cut out automatically',
+    seriesLogo:'Series logo',
+    card1:'Card 1 (front)',
+    card2:'Card 2 (back)',
+    background:'Background',
+    backgroundSub:'JPG or PNG — key image for the series',
+    titleColors:'TITLE & COLORS',
+    titleLine1:'Title line 1 (FR + EN)',
+    titleLine2:'Title line 2 (FR + EN)',
+    textsTitle:'TEXTS',
+    configurationTitle:'CONFIGURATION',
+    makeWebhook:'Make webhook URL',
+    statusWebhook:'HD status webhook URL',
+    statusWebhookPlaceholder:'Paste it after creating the Make status scenario',
+    generateBtn:'⚡ GENERATE BANNERS',
+    saveProject:'💾 SAVE PROJECT',
+    importProject:'📂 IMPORT PROJECT',
+    resultTitle:'✅ BANNERS GENERATED!',
+    editorTitle:'🎛️ ADJUST BANNERS',
+    assetStatusDefault:'Simulator images: original versions.',
+    resetBtn:'↺ Reset',
+    animatedLinksBtn:'🔗 CREATE ANIMATED LINKS',
+    hdBtn:'🚀 GENERATE HD WITH THESE SETTINGS',
+    syncDesktop:'Settings synced between Desktop FR and Desktop EN.',
+    syncMobile:'Settings synced between Mobile FR and Mobile EN.',
+    syncStory:'Settings synced between Story FR and Story EN.'
+  },
+  ja: {
+    headerSubtitle:'素材を追加して、カスタムバナーとビジュアルを自動生成',
+    languageLabel:'言語',
+    assetsTitle:'画像素材',
+    autoCutout:'PNG — 自動で背景を切り抜きます',
+    autoCutoutFem:'PNG — 自動で背景を切り抜きます',
+    seriesLogo:'シリーズロゴ',
+    card1:'カード1（前）',
+    card2:'カード2（後ろ）',
+    background:'背景',
+    backgroundSub:'JPGまたはPNG — シリーズのキー画像',
+    titleColors:'タイトル & カラー',
+    titleLine1:'タイトル 1行目（FR + EN）',
+    titleLine2:'タイトル 2行目（FR + EN）',
+    textsTitle:'テキスト',
+    configurationTitle:'設定',
+    makeWebhook:'Make Webhook URL',
+    statusWebhook:'HD確認用Webhook URL',
+    statusWebhookPlaceholder:'Makeの確認シナリオ作成後に貼り付け',
+    generateBtn:'⚡ バナーを生成',
+    saveProject:'💾 プロジェクトを保存',
+    importProject:'📂 プロジェクトを読み込み',
+    resultTitle:'✅ バナー生成完了！',
+    editorTitle:'🎛️ バナーを調整',
+    assetStatusDefault:'シミュレーター画像：オリジナル版を使用中。',
+    resetBtn:'↺ リセット',
+    animatedLinksBtn:'🔗 アニメーションリンクを作成',
+    hdBtn:'🚀 この設定でHD生成',
+    syncDesktop:'Desktop FR と Desktop EN の設定を同期中。',
+    syncMobile:'Mobile FR と Mobile EN の設定を同期中。',
+    syncStory:'Story FR と Story EN の設定を同期中。'
+  }
+};
+let currentUiLang = localStorage.getItem('banner_ui_lang') || 'fr';
+function tr(key) {
+  return (uiTranslations[currentUiLang] && uiTranslations[currentUiLang][key]) || uiTranslations.fr[key] || key;
+}
+function updateSyncNote() {
+  const desktop = currentTab.startsWith('desktop');
+  const mobile = currentTab.startsWith('mobile');
+  document.getElementById('syncNote').textContent = desktop ? tr('syncDesktop') : (mobile ? tr('syncMobile') : tr('syncStory'));
+}
+function applyUiLanguage() {
+  document.documentElement.lang = currentUiLang;
+  const select = document.getElementById('ui_language');
+  if (select) select.value = currentUiLang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = tr(el.dataset.i18n);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.placeholder = tr(el.dataset.i18nPlaceholder);
+  });
+  updateSyncNote();
+}
+function setUiLanguage(lang) {
+  currentUiLang = uiTranslations[lang] ? lang : 'fr';
+  localStorage.setItem('banner_ui_lang', currentUiLang);
+  applyUiLanguage();
+}
 
 const assetPreviewMap = {
   booster_url:{zone:'zone-booster',preview:'prev-booster',label:'Booster'},
@@ -567,9 +704,7 @@ function importProject(input) {
         tabEl.classList.toggle('active', tabEl.getAttribute('onclick')?.includes("'"+currentTab+"'"));
       });
       document.querySelectorAll('.desktop-only').forEach(group => group.classList.toggle('is-hidden', !desktop));
-      document.getElementById('syncNote').textContent = desktop
-        ? 'Réglages synchronisés entre Desktop FR et Desktop EN.'
-        : (mobile ? 'Réglages synchronisés entre Mobile FR et Mobile EN.' : 'Réglages synchronisés entre Story FR et Story EN.');
+      updateSyncNote();
       const ov = overrides[currentTab];
       Object.entries(sliderMap).forEach(([sid, key]) => {
         const el = document.getElementById(sid);
@@ -855,9 +990,7 @@ function switchTab(tab, el) {
   document.querySelectorAll('.banner-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
   document.querySelectorAll('.desktop-only').forEach(group => group.classList.toggle('is-hidden', !desktop));
-  document.getElementById('syncNote').textContent = desktop
-    ? 'Réglages synchronisés entre Desktop FR et Desktop EN.'
-    : (mobile ? 'Réglages synchronisés entre Mobile FR et Mobile EN.' : 'Réglages synchronisés entre Story FR et Story EN.');
+  updateSyncNote();
   // Charger les valeurs de ce tab dans les sliders
   const ov = overrides[tab];
   Object.entries(sliderMap).forEach(([sid, key]) => {
@@ -1074,6 +1207,8 @@ Object.keys(sliderMap).forEach(sid=>{
     document.getElementById('val-'+sid).textContent=el.value+unit;
   }
 });
+
+applyUiLanguage();
 
 // Aperçu local des réglages sans lancer Make : index.html?preview=1
 if (new URLSearchParams(window.location.search).get('preview') === '1') {
