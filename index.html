@@ -355,6 +355,7 @@ input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;hei
       <div class="slider-group">
         <div class="slider-group-title">📦 Paire de boosters</div>
         <div class="slider-row"><div class="slider-label"><span>Taille</span><span class="val" id="val-pair-booster-size">100%</span></div><input type="range" id="pair-booster-size" min="50" max="200" value="100" oninput="onSlider(this)"></div>
+        <div class="slider-row"><div class="slider-label"><span>Gauche / Droite</span><span class="val" id="val-pair-booster-x">0px</span></div><input type="range" id="pair-booster-x" min="-150" max="150" value="0" oninput="onSlider(this)"></div>
         <div class="slider-row"><div class="slider-label"><span>Éloignement</span><span class="val" id="val-pair-booster-gap">0px</span></div><input type="range" id="pair-booster-gap" min="-120" max="180" value="0" oninput="onSlider(this)"></div>
         <div class="slider-row"><div class="slider-label"><span>Haut / Bas</span><span class="val" id="val-pair-booster-y">0px</span></div><input type="range" id="pair-booster-y" min="-120" max="120" value="0" oninput="onSlider(this)"></div>
       </div>
@@ -428,15 +429,15 @@ const defaultOverrides = {
   titreSize:100,titreX:0,titreY:0,
   displaySize:100,displayX:0,displayY:0,
   leftBoosterSize:100,leftBoosterX:0,leftBoosterY:0,
-  pairBoosterSize:100,pairBoosterGap:0,pairBoosterY:0,
+  pairBoosterSize:100,pairBoosterX:0,pairBoosterGap:0,pairBoosterY:0,
   card1Size:100,card1X:0,card1Y:0,
   card2Size:100,card2X:0,card2Y:0,
   dispoSize:100,dispoX:0,dispoY:0
 };
 const familyDefaultOverrides = {
-  desktop:{titreSize:150,titreY:8},
-  mobile:{displaySize:85,displayY:-13,pairBoosterSize:95,pairBoosterGap:30},
-  social:{}
+  desktop:{titreSize:200,titreY:8},
+  mobile:{titreSize:200,displaySize:70,displayY:-13,pairBoosterSize:95,pairBoosterGap:40},
+  social:{titreSize:120,pairBoosterGap:35}
 };
 function familyForTab(tab) {
   if (tab.startsWith('desktop')) return 'desktop';
@@ -465,7 +466,7 @@ const sliderMap = {
   'titre-size':'titreSize','titre-x':'titreX','titre-y':'titreY',
   'display-size':'displaySize','display-x':'displayX','display-y':'displayY',
   'left-booster-size':'leftBoosterSize','left-booster-x':'leftBoosterX','left-booster-y':'leftBoosterY',
-  'pair-booster-size':'pairBoosterSize','pair-booster-gap':'pairBoosterGap','pair-booster-y':'pairBoosterY',
+  'pair-booster-size':'pairBoosterSize','pair-booster-x':'pairBoosterX','pair-booster-gap':'pairBoosterGap','pair-booster-y':'pairBoosterY',
   'card1-size':'card1Size','card1-x':'card1X','card1-y':'card1Y',
   'card2-size':'card2Size','card2-x':'card2X','card2-y':'card2Y',
   'dispo-size':'dispoSize','dispo-x':'dispoX','dispo-y':'dispoY'
@@ -964,8 +965,8 @@ function applyLiveOverrides() {
   transform('.logo-wrap', `translate(${ov.logoX}px,${ov.logoY}px) rotate(${social ? -4 : (desktop ? -5 : -6)}deg) scale(${ov.logoSize/100})`);
   transform('.text-zone', `translate(${ov.titreX}px,${ov.titreY}px) rotate(${social ? -5 : (desktop ? -5 : -6)}deg) scale(${ov.titreSize/100})`);
   transform('.disp', `translateX(calc(-50% + ${ov.displayX}px)) translateY(${ov.displayY}px) rotate(${social ? 2 : (desktop ? 6 : 1)}deg) scale(${ov.displaySize/100})`);
-  transform('.b-back-l', `translate(${-ov.pairBoosterGap}px,${ov.pairBoosterY}px) rotate(${social ? -12 : -10}deg) scale(${ov.pairBoosterSize/100})`);
-  transform('.b-back-r', `translate(${ov.pairBoosterGap}px,${ov.pairBoosterY}px) rotate(${social ? 12 : (desktop ? 16 : 10)}deg) scale(${ov.pairBoosterSize/100})`);
+  transform('.b-back-l', `translate(${ov.pairBoosterX - ov.pairBoosterGap}px,${ov.pairBoosterY}px) rotate(${social ? -12 : -10}deg) scale(${ov.pairBoosterSize/100})`);
+  transform('.b-back-r', `translate(${ov.pairBoosterX + ov.pairBoosterGap}px,${ov.pairBoosterY}px) rotate(${social ? 12 : (desktop ? 16 : 10)}deg) scale(${ov.pairBoosterSize/100})`);
   transform('.dispo-outer', `translate(${ov.dispoX}px,${ov.dispoY}px) rotate(${social ? -5 : (desktop ? -5 : -6)}deg) scale(${ov.dispoSize/100})`);
   if (desktop) {
     transform('.bl', `translate(${ov.leftBoosterX}px,${ov.leftBoosterY}px) rotate(-7deg) scale(${ov.leftBoosterSize/100})`);
@@ -1219,6 +1220,16 @@ Object.keys(sliderMap).forEach(sid=>{
     const unit=sid.includes('size')?'%':'px';
     document.getElementById('val-'+sid).textContent=el.value+unit;
   }
+});
+
+Object.entries(sliderMap).forEach(([sid, key]) => {
+  const el = document.getElementById(sid);
+  if (!el) return;
+  el.value = overrides[currentTab][key];
+  const numberInput = document.getElementById('num-'+sid);
+  if (numberInput) numberInput.value = overrides[currentTab][key];
+  const unit = sid.includes('size') ? '%' : 'px';
+  document.getElementById('val-'+sid).textContent = overrides[currentTab][key]+unit;
 });
 
 applyUiLanguage();

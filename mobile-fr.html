@@ -149,9 +149,9 @@ function configureMotion() {
     const gn = (k, fallback=0) => parseFloat(p.get(k) || fallback);
     const gp = (k, fallback=100) => parseFloat(p.get(k) || fallback);
     const logoSize=gp('logoSize')/100, logoX=gn('logoX'), logoY=gn('logoY');
-    const titreSize=gp('titreSize')/100, titreX=gn('titreX'), titreY=gn('titreY');
-    const displaySize=gp('displaySize',85)/100, displayX=gn('displayX'), displayY=gn('displayY',-13);
-    const pairBoosterSize=gp('pairBoosterSize',95)/100, pairBoosterGap=gn('pairBoosterGap',30), pairBoosterY=gn('pairBoosterY');
+    const titreSize=gp('titreSize',200)/100, titreX=gn('titreX'), titreY=gn('titreY');
+    const displaySize=gp('displaySize',70)/100, displayX=gn('displayX'), displayY=gn('displayY',-13);
+    const pairBoosterSize=gp('pairBoosterSize',95)/100, pairBoosterX=gn('pairBoosterX'), pairBoosterGap=gn('pairBoosterGap',40), pairBoosterY=gn('pairBoosterY');
     const card1Size=gp('card1Size')/100, card1X=gn('card1X'), card1Y=gn('card1Y');
     const card2Size=gp('card2Size')/100, card2X=gn('card2X'), card2Y=gn('card2Y');
     const dispoSize=gp('dispoSize')/100, dispoX=gn('dispoX'), dispoY=gn('dispoY');
@@ -170,10 +170,10 @@ function configureMotion() {
         disp.style.transform = 'translateX(calc(-50% + '+displayX+'px)) translateY('+displayY+'px) rotate(1deg) scale('+displaySize+')';
       }
       document.querySelectorAll('.b-back-l').forEach(el => {
-        el.style.transform = 'translate('+(-pairBoosterGap)+'px,'+pairBoosterY+'px) rotate(-10deg) scale('+pairBoosterSize+')';
+        el.style.transform = 'translate('+(pairBoosterX-pairBoosterGap)+'px,'+pairBoosterY+'px) rotate(-10deg) scale('+pairBoosterSize+')';
       });
       document.querySelectorAll('.b-back-r').forEach(el => {
-        el.style.transform = 'translate('+pairBoosterGap+'px,'+pairBoosterY+'px) rotate(10deg) scale('+pairBoosterSize+')';
+        el.style.transform = 'translate('+(pairBoosterX+pairBoosterGap)+'px,'+pairBoosterY+'px) rotate(10deg) scale('+pairBoosterSize+')';
       });
       const cr1 = document.querySelector('.cr1');
       if (cr1) { cr1.style.right=(parseFloat(cr1.style.right||200)-card1X)+'px'; cr1.style.top=(parseFloat(cr1.style.top||-55)+card1Y)+'px'; cr1.style.transform='rotate(-10deg) scale('+card1Size+')'; }
@@ -198,8 +198,8 @@ window.addEventListener('message', function(event) {
   transform('.logo-wrap', `translate(${n('logoX',0)}px,${n('logoY',0)}px) rotate(-6deg) scale(${n('logoSize',100)/100})`);
   transform('.text-zone', `translate(${n('titreX',0)}px,${n('titreY',0)}px) rotate(-6deg) scale(${n('titreSize',100)/100})`);
   transform('.disp', `translateX(calc(-50% + ${n('displayX',0)}px)) translateY(${n('displayY',0)}px) rotate(1deg) scale(${n('displaySize',100)/100})`);
-  transform('.b-back-l', `translate(${-n('pairBoosterGap',0)}px,${n('pairBoosterY',0)}px) rotate(-10deg) scale(${n('pairBoosterSize',100)/100})`);
-  transform('.b-back-r', `translate(${n('pairBoosterGap',0)}px,${n('pairBoosterY',0)}px) rotate(10deg) scale(${n('pairBoosterSize',100)/100})`);
+  transform('.b-back-l', `translate(${n('pairBoosterX',0)-n('pairBoosterGap',40)}px,${n('pairBoosterY',0)}px) rotate(-10deg) scale(${n('pairBoosterSize',95)/100})`);
+  transform('.b-back-r', `translate(${n('pairBoosterX',0)+n('pairBoosterGap',40)}px,${n('pairBoosterY',0)}px) rotate(10deg) scale(${n('pairBoosterSize',95)/100})`);
   transform('.dispo-outer', `translate(${n('dispoX',0)}px,${n('dispoY',0)}px) rotate(-6deg) scale(${n('dispoSize',100)/100})`);
 });
 </script>
