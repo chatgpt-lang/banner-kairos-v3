@@ -815,9 +815,9 @@ function applyLiveOverrides() {
 
   transform('.logo-wrap', `translate(${ov.logoX}px,${ov.logoY}px) rotate(${social ? -4 : (desktop ? -5 : -6)}deg) scale(${ov.logoSize/100})`);
   transform('.text-zone', `translate(${ov.titreX}px,${ov.titreY}px) rotate(${social ? -5 : (desktop ? -5 : -6)}deg) scale(${ov.titreSize/100})`);
-  transform('.disp', `translateX(calc(-50% + ${ov.displayX}px)) translateY(${ov.displayY}px) rotate(${social ? 4 : (desktop ? 6 : 1)}deg) scale(${ov.displaySize/100})`);
-  transform('.b-back-l', `translate(${-ov.pairBoosterGap}px,${ov.pairBoosterY}px) rotate(-10deg) scale(${ov.pairBoosterSize/100})`);
-  transform('.b-back-r', `translate(${ov.pairBoosterGap}px,${ov.pairBoosterY}px) rotate(${desktop ? 16 : 10}deg) scale(${ov.pairBoosterSize/100})`);
+  transform('.disp', `translateX(calc(-50% + ${ov.displayX}px)) translateY(${ov.displayY}px) rotate(${social ? 2 : (desktop ? 6 : 1)}deg) scale(${ov.displaySize/100})`);
+  transform('.b-back-l', `translate(${-ov.pairBoosterGap}px,${ov.pairBoosterY}px) rotate(${social ? -12 : -10}deg) scale(${ov.pairBoosterSize/100})`);
+  transform('.b-back-r', `translate(${ov.pairBoosterGap}px,${ov.pairBoosterY}px) rotate(${social ? 12 : (desktop ? 16 : 10)}deg) scale(${ov.pairBoosterSize/100})`);
   transform('.dispo-outer', `translate(${ov.dispoX}px,${ov.dispoY}px) rotate(${social ? -5 : (desktop ? -5 : -6)}deg) scale(${ov.dispoSize/100})`);
   if (desktop) {
     transform('.bl', `translate(${ov.leftBoosterX}px,${ov.leftBoosterY}px) rotate(-7deg) scale(${ov.leftBoosterSize/100})`);
