@@ -433,8 +433,21 @@ const defaultOverrides = {
   card2Size:100,card2X:0,card2Y:0,
   dispoSize:100,dispoX:0,dispoY:0
 };
+const familyDefaultOverrides = {
+  desktop:{titreSize:150,titreY:8},
+  mobile:{displaySize:85,displayY:-13,pairBoosterSize:95,pairBoosterGap:30},
+  social:{}
+};
+function familyForTab(tab) {
+  if (tab.startsWith('desktop')) return 'desktop';
+  if (tab.startsWith('mobile')) return 'mobile';
+  return 'social';
+}
+function getDefaultOverrides(tab) {
+  return {...defaultOverrides, ...(familyDefaultOverrides[familyForTab(tab)] || {})};
+}
 ['desktop_fr','desktop_en','mobile_fr','mobile_en','social_fr','social_en'].forEach(t => {
-  overrides[t] = {...defaultOverrides};
+  overrides[t] = getDefaultOverrides(t);
 });
 
 function linkedTabs(tab) {
@@ -694,7 +707,7 @@ function importProject(input) {
       Object.assign(urls, project.urls || {});
       Object.entries(urls).forEach(([key,url]) => applyAssetPreview(key,url));
       Object.entries(project.overrides || {}).forEach(([tab,value]) => {
-        if (overrides[tab]) overrides[tab] = {...defaultOverrides, ...value};
+        if (overrides[tab]) overrides[tab] = {...getDefaultOverrides(tab), ...value};
       });
       const targetTab = bannerConfig[project.currentTab] ? project.currentTab : currentTab;
       currentTab = targetTab;
@@ -1007,10 +1020,10 @@ function switchTab(tab, el) {
 }
 
 function resetSliders() {
-  linkedTabs(currentTab).forEach(tab => { overrides[tab] = {...defaultOverrides}; });
+  linkedTabs(currentTab).forEach(tab => { overrides[tab] = getDefaultOverrides(tab); });
   Object.entries(sliderMap).forEach(([sid, key]) => {
     const el = document.getElementById(sid);
-    if (el) { el.value = defaultOverrides[key]; onSlider(el); }
+    if (el) { el.value = getDefaultOverrides(currentTab)[key]; onSlider(el); }
   });
   applyLiveOverrides();
 }

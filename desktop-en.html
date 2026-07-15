@@ -159,10 +159,10 @@ function configureMotion() {
   // === JAUGES : lecture params URL ===
   (function() {
     const p = new URLSearchParams(window.location.search);
-    const gn = k => parseFloat(p.get(k) || '0');
-    const gp = k => parseFloat(p.get(k) || '100');
+    const gn = (k, fallback=0) => parseFloat(p.get(k) || fallback);
+    const gp = (k, fallback=100) => parseFloat(p.get(k) || fallback);
     const logoSize=gp('logoSize')/100, logoX=gn('logoX'), logoY=gn('logoY');
-    const titreSize=gp('titreSize')/100, titreX=gn('titreX'), titreY=gn('titreY');
+    const titreSize=gp('titreSize',150)/100, titreX=gn('titreX'), titreY=gn('titreY',8);
     const displaySize=gp('displaySize')/100, displayX=gn('displayX'), displayY=gn('displayY');
     const leftBoosterSize=gp('leftBoosterSize')/100, leftBoosterX=gn('leftBoosterX'), leftBoosterY=gn('leftBoosterY');
     const pairBoosterSize=gp('pairBoosterSize')/100, pairBoosterGap=gn('pairBoosterGap'), pairBoosterY=gn('pairBoosterY');

@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const t1 = g('titre_ligne1'), t2 = g('titre_ligne2');
   ['ref1a','ref1b','ref1c','ref1d','ref1e'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = t1; });
   ['ref2a','ref2b','ref2c','ref2d','ref2e'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = t2; });
-  document.querySelectorAll('.c2').forEach(el => el.style.webkitTextStroke = '5px ' + outline);
+  document.querySelectorAll('.c2').forEach(el => el.style.webkitTextStroke = '2px ' + outline);
   document.querySelectorAll('.c4').forEach(el => {
     el.style.background = grad;
     el.style.webkitBackgroundClip = 'text';
@@ -146,12 +146,12 @@ function configureMotion() {
   // === JAUGES : lecture params URL ===
   (function() {
     const p = new URLSearchParams(window.location.search);
-    const gn = k => parseFloat(p.get(k) || '0');
-    const gp = k => parseFloat(p.get(k) || '100');
+    const gn = (k, fallback=0) => parseFloat(p.get(k) || fallback);
+    const gp = (k, fallback=100) => parseFloat(p.get(k) || fallback);
     const logoSize=gp('logoSize')/100, logoX=gn('logoX'), logoY=gn('logoY');
     const titreSize=gp('titreSize')/100, titreX=gn('titreX'), titreY=gn('titreY');
-    const displaySize=gp('displaySize')/100, displayX=gn('displayX'), displayY=gn('displayY');
-    const pairBoosterSize=gp('pairBoosterSize')/100, pairBoosterGap=gn('pairBoosterGap'), pairBoosterY=gn('pairBoosterY');
+    const displaySize=gp('displaySize',85)/100, displayX=gn('displayX'), displayY=gn('displayY',-13);
+    const pairBoosterSize=gp('pairBoosterSize',95)/100, pairBoosterGap=gn('pairBoosterGap',30), pairBoosterY=gn('pairBoosterY');
     const card1Size=gp('card1Size')/100, card1X=gn('card1X'), card1Y=gn('card1Y');
     const card2Size=gp('card2Size')/100, card2X=gn('card2X'), card2Y=gn('card2Y');
     const dispoSize=gp('dispoSize')/100, dispoX=gn('dispoX'), dispoY=gn('dispoY');
